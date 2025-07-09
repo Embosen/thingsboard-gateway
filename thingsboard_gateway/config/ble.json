@@ -3,14 +3,13 @@
   "passiveScanMode": true,
   "showMap": false,
   "scanner": {
-    "timeout": 10000,
-    "deviceName": "Device name"
+    "timeout": 10000
   },
   "devices": [
-    {
-      "name": "Temperature and humidity sensor",
-      "MACAddress": "4C:65:A8:DF:85:C0",
-      "pollPeriod": 500000,
+      {
+      "name": "ESP32C3_BLE_DHT11_2",
+      "MACAddress": "58:CF:79:DD:33:3A",
+      "pollPeriod": 30000,
       "showMap": false,
       "timeout": 10000,
       "connectRetry": 5,
@@ -19,56 +18,124 @@
       "telemetry": [
         {
           "key": "temperature",
-          "method": "notify",
-          "characteristicUUID": "226CAA55-6476-4566-7562-66734470666D",
-          "valueExpression": "[2]"
+          "method": "read",
+          "characteristicUUID": "2A1C",
+          "valueExpression": "[0].[1]"
         },
         {
           "key": "humidity",
-          "method": "notify",
-          "characteristicUUID": "226CAA55-6476-4566-7562-66734470666D",
-          "valueExpression": "[0]"
+          "method": "read",
+          "characteristicUUID": "2A1C",
+          "valueExpression": "[2].[3]"
+        },
+        {
+          "key": "battery",
+          "method": "read",
+          "characteristicUUID": "2A19",
+          "valueExpression": "[:]"
+
         }
       ],
       "attributes": [
         {
-          "key": "name",
+          "key": "manufacturer",
           "method": "read",
-          "characteristicUUID": "00002A00-0000-1000-8000-00805F9B34FB",
-          "valueExpression": "[0:2]cm [2:]A"
+          "characteristicUUID": "2A29",
+          "valueExpression": "data.decode('utf-8')"
         },
         {
-          "key": "values",
+          "key": "model_number",
           "method": "read",
-          "characteristicUUID": "00002A00-0000-1000-8000-00805F9B34FB",
-          "valueExpression": "All values: [:]"
+          "characteristicUUID": "2A24",
+          "valueExpression": "data.decode('utf-8')"
+        },
+        {
+          "key": "serial_number",
+          "method": "read",
+          "characteristicUUID": "2A25",
+          "valueExpression": "data.decode('utf-8')"
+        },
+        {
+          "key": "hw_revision",
+          "method": "read",
+          "characteristicUUID": "2A27",
+          "valueExpression": "data.decode('utf-8')"
+        },
+        {
+          "key": "fw_revision",
+          "method": "read",
+          "characteristicUUID": "2A26",
+          "valueExpression": "data.decode('utf-8')"
         }
       ],
-      "attributeUpdates": [
+      "attributeUpdates": [],
+      "serverSideRpc": []
+    },
+    {
+      "name": "ESP32C3_BLE_DHT11_1",
+      "MACAddress": "9C:9E:6E:23:B8:76",
+      "pollPeriod": 30000,
+      "showMap": false,
+      "timeout": 10000,
+      "connectRetry": 5,
+      "connectRetryInSeconds": 0,
+      "waitAfterConnectRetries": 10,
+      "telemetry": [
         {
-          "attributeOnThingsBoard": "sharedName",
-          "characteristicUUID": "00002A00-0000-1000-8000-00805F9B34FB"
+          "key": "temperature",
+          "method": "read",
+          "characteristicUUID": "2A1C",
+          "valueExpression": "[0].[1]"
+        },
+        {
+          "key": "humidity",
+          "method": "read",
+          "characteristicUUID": "2A1C",
+          "valueExpression": "[2].[3]"
+        },
+        {
+          "key": "battery",
+          "method": "read",
+          "characteristicUUID": "2A19",
+          "valueExpression": "[:]"
+
         }
       ],
-      "serverSideRpc": [
+      "attributes": [
         {
-          "methodRPC": "rpcMethod1",
-          "withResponse": true,
-          "characteristicUUID": "00002A00-0000-1000-8000-00805F9B34FB",
-          "methodProcessing": "read"
+          "key": "manufacturer",
+          "method": "read",
+          "characteristicUUID": "2A29",
+          "valueExpression": "data.decode('utf-8')"
         },
         {
-          "methodRPC": "rpcMethod2",
-          "withResponse": true,
-          "characteristicUUID": "00002A00-0000-1000-8000-00805F9B34FB",
-          "methodProcessing": "write"
+          "key": "model_number",
+          "method": "read",
+          "characteristicUUID": "2A24",
+          "valueExpression": "data.decode('utf-8')"
         },
         {
-          "methodRPC": "rpcMethod3",
-          "withResponse": true,
-          "methodProcessing": "scan"
+          "key": "serial_number",
+          "method": "read",
+          "characteristicUUID": "2A25",
+          "valueExpression": "data.decode('utf-8')"
+        },
+        {
+          "key": "hw_revision",
+          "method": "read",
+          "characteristicUUID": "2A27",
+          "valueExpression": "data.decode('utf-8')"
+        },
+        {
+          "key": "fw_revision",
+          "method": "read",
+          "characteristicUUID": "2A26",
+          "valueExpression": "data.decode('utf-8')"
         }
-      ]
+      ],
+      "attributeUpdates": [],
+      "serverSideRpc": []
     }
-  ]
+  ],
+  "id": "f2c195cc-2e33-45c4-bc19-488f386b0109"
 }

@@ -1,6 +1,6 @@
 {
   "thingsboard": {
-    "host": "thingsboard.cloud",
+    "host": "www.emboard.com.cn",
     "port": 1883,
     "remoteShell": false,
     "remoteConfiguration": true,
@@ -21,7 +21,7 @@
     "handleDeviceRenaming": true,
     "security": {
       "type": "accessToken",
-      "accessToken": "YOUR_ACCESS_TOKEN"
+      "accessToken": "psgvwz408szdb61jmfqc"
     },
     "qos": 1,
     "reportStrategy": {
@@ -61,5 +61,11 @@
     "minTimeBetweenPingsMs": 10000,
     "minPingIntervalWithoutDataMs": 5000
   },
-  "connectors": []
+  "connectors": [
+  {
+    "name": "BLE Connector",
+    "type": "ble",
+    "configuration": "ble.json"
+  }
+  ]
 }

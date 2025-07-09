@@ -1,29 +1,3 @@
-#     Copyright 2025. ThingsBoard
-#
-#     Licensed under the Apache License, Version 2.0 (the "License");
-#     you may not use this file except in compliance with the License.
-#     You may obtain a copy of the License at
-#
-#         http://www.apache.org/licenses/LICENSE-2.0
-#
-#     Unless required by applicable law or agreed to in writing, software
-#     distributed under the License is distributed on an "AS IS" BASIS,
-#     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#     See the License for the specific language governing permissions and
-#     limitations under the License.
-#
-#     Licensed under the Apache License, Version 2.0 (the "License");
-#     you may not use this file except in compliance with the License.
-#     You may obtain a copy of the License at
-#
-#         http://www.apache.org/licenses/LICENSE-2.0
-#
-#     Unless required by applicable law or agreed to in writing, software
-#     distributed under the License is distributed on an "AS IS" BASIS,
-#     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#     See the License for the specific language governing permissions and
-#     limitations under the License.
-
 from pprint import pformat
 from re import findall
 
@@ -46,7 +20,7 @@ class BytesBLEUplinkConverter(BLEUplinkConverter):
                        end_stat_type='convertedBytesFromDevice')
     def convert(self, config, data):
         converted_data = ConvertedData(device_name=self.__config['deviceName'],
-                                        device_type=self.__config['deviceType'])
+                                       device_type=self.__config['deviceType'])
 
         if data is None:
             return converted_data
@@ -61,28 +35,19 @@ class BytesBLEUplinkConverter(BLEUplinkConverter):
             for section in ('telemetry', 'attributes'):
                 for item in data[section]:
                     try:
-                        expression_arr = findall(r'\[[^\s][0-9:]*]', item['valueExpression'])
-                        decoded_data = item['valueExpression']
-
-                        for exp in expression_arr:
-                            indexes = exp[1:-1].split(':')
-
-                            data_to_replace = ''
-                            if len(indexes) == 2:
-                                from_index, to_index = indexes
-                                concat_arr = item['data'][
-                                             int(from_index) if from_index != '' else None:int(
-                                                 to_index) if to_index != '' else None]
-                                for sub_item in concat_arr:
-                                    data_to_replace += str(sub_item)
-                            else:
-                                data_to_replace += str(item['data'][int(indexes[0])])
-
-                            decoded_data = decoded_data.replace(exp, data_to_replace)
+                        if 'valueExpression' in item and item['valueExpression']:
+                            try:
+                                decoded_data = eval(item['valueExpression'], {}, {'data': item['data']})
+                            except Exception as eval_error:
+                                self._log.warning("Failed to eval valueExpression for key %s: %s", item.get('key'), eval_error)
+                                decoded_data = item['data']
+                        else:
+                            decoded_data = item['data']
 
                         if item.get('key') is not None:
-                            datapoint_key = TBUtility.convert_key_to_datapoint_key(item['key'], device_report_strategy,
-                                                                                   item, self._log)
+                            datapoint_key = TBUtility.convert_key_to_datapoint_key(
+                                item['key'], device_report_strategy, item, self._log
+                            )
                             if section == 'attributes':
                                 converted_data.add_to_attributes(datapoint_key, decoded_data)
                             else:
@@ -103,3 +68,4 @@ class BytesBLEUplinkConverter(BLEUplinkConverter):
         StatisticsService.count_connector_message(self._log.name, 'convertersTsProduced',
                                                   count=converted_data.telemetry_datapoints_count)
         return converted_data
+
