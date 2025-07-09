@@ -1,6 +1,6 @@
 {
   "thingsboard": {
-    "host": "www.emboard.com.cn",
+    "host": "xxx",
     "port": 1883,
     "remoteShell": false,
     "remoteConfiguration": true,
