@@ -20,20 +20,19 @@
           "key": "temperature",
           "method": "read",
           "characteristicUUID": "2A1C",
-          "valueExpression": "[0].[1]"
+          "valueExpression": "int(data[0]) + int(data[1]) / 10.0"
         },
         {
           "key": "humidity",
           "method": "read",
           "characteristicUUID": "2A1C",
-          "valueExpression": "[2].[3]"
+          "valueExpression": "int(data[2]) + int(data[3]) / 10.0"
         },
         {
           "key": "battery",
           "method": "read",
           "characteristicUUID": "2A19",
-          "valueExpression": "[:]"
-
+          "valueExpression": "int(data[0])"
         }
       ],
       "attributes": [
@@ -85,20 +84,19 @@
           "key": "temperature",
           "method": "read",
           "characteristicUUID": "2A1C",
-          "valueExpression": "[0].[1]"
+          "valueExpression": "int(data[0]) + int(data[1]) / 10.0"
         },
         {
           "key": "humidity",
           "method": "read",
           "characteristicUUID": "2A1C",
-          "valueExpression": "[2].[3]"
+          "valueExpression": "int(data[2]) + int(data[3]) / 10.0"
         },
         {
           "key": "battery",
           "method": "read",
           "characteristicUUID": "2A19",
-          "valueExpression": "[:]"
-
+          "valueExpression": "int(data[0])"
         }
       ],
       "attributes": [
